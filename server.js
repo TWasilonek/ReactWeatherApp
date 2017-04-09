@@ -15,10 +15,10 @@ server.use(express.static('public'));
 // To avoid problems with the browser CORS policy make sure you are sending 
 // requestes through http
 server.use(function (req, res, next){
-   if (req.headers['x-forwarded-proto'] === 'http') {
-       next();
-   } else {
+   if (req.headers['x-forwarded-proto'] === 'https') {
        res.redirect('http://' + req.hostname + req.url);
+   } else {
+       next();
    }
 });
 
