@@ -10,6 +10,7 @@ var axios = require("axios");
 const CORS_PROXY = 'https://crossorigin.me/';
 const API_KEY = '6853b34c5832a88384e04135dcb67121';
 const OPEN_WEATHER_MAP_URL = CORS_PROXY + "http://samples.openweathermap.org/data/2.5/weather?appid=" + API_KEY;
+// const OPEN_WEATHER_MAP_URL = "http://samples.openweathermap.org/data/2.5/weather?appid=" + API_KEY;
 
 /*
  * Gets weather data from the OpenWeatherMap website
