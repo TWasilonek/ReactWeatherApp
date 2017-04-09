@@ -1,7 +1,26 @@
+var webpack = require("webpack");
+
 module.exports = {
-	// Starting point - where the main code boundling the
-	// app resides
-	entry: './app/app.jsx',
+	// Starting point - where the main code boundling the app resides
+	entry: [
+		// use the script-loader (script!) (save-dev packages) to load additional scripts
+		'script!jquery/dist/jquery.min.js',
+		'script!foundation-sites/dist/foundation.min.js',
+		// app.jsx doesn't need a script loader
+		'./app/app.jsx',
+		],
+	externals: {
+		// register name for jQuery
+		jquery: 'jQuery'
+	},
+	plugins: [
+		// give aliases to variables $ and jQuery - now the app knows to use the
+		// jquery plugins in these cases
+		new webpack.ProvidePlugin({
+			'$': 'jquery',
+			'jQuery': 'jquery'
+		})
+	],
 	// where to put the boundled code
 	output: {
 		// __dirname in Node.js is the current folder
