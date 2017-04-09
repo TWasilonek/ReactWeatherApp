@@ -4,8 +4,9 @@ const express = require("express");
 const server = express();
 
 // server config
-const hostname = process.env.IP || '127.0.0.1';
-const port = process.env.PORT || 3000;
+// const hostname = process.env.IP || '127.0.0.1';
+const hostname = process.env.IP;
+const port = process.env.PORT;
 
 // define static folder
 server.use(express.static('public'));
@@ -23,6 +24,6 @@ server.use(function (req, res, next){
 
 
 // run server command
-server.listen(port, () => {
+server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
