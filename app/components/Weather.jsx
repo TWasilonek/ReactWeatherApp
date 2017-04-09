@@ -17,11 +17,7 @@ var Weather = React.createClass({
     /* ====== USER METHODS ====== */
     handleSearch (location) {
         var _self = this;
-        
-        // The debugger keyword will work like a stop sign if you have 
-        // the dev tools open in the browser
-        // debugger;
-        
+    
         _self.setState({
             isLoading: true
         });
