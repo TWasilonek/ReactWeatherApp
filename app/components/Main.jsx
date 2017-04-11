@@ -29,7 +29,7 @@ var Main = (props) => {
         <div>
             <Nav/>
             <div className="row">
-                <div className="columns medium-6 large-4 small-centered">
+                <div className="columns medium-6 small-centered">
                     {/* this.props.children is provided by react-router. 
                         It means that here I want to render the child components of
                         the route (check app.jsx to see example)
