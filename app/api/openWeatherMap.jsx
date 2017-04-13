@@ -1,3 +1,8 @@
+/* I switched the API to Dark Sky, but leaving this in case 
+    it is needed in the future, and for an example on how to do
+    calls to Open Weather API
+*/
+
 'use strict';
 
 /*
@@ -8,7 +13,7 @@
 var axios = require("axios");
 
 const CORS_PROXY = 'https://crossorigin.me/';
-const API_KEY = '6853b34c5832a88384e04135dcb67121';
+const API_KEY = process.env.OPEN_WEATHER_MAP_KEY;
 const OPEN_WEATHER_MAP_URL = CORS_PROXY + "http://api.openweathermap.org/data/2.5/weather?appid=" + API_KEY;
 
 /*
