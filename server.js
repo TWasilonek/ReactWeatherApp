@@ -27,24 +27,14 @@ const geocoder = NodeGeocoder(geocoderOptions);
 const darkSky = {
     API_KEY : process.env.DARK_SKY_API_KEY,  // this is a private key, you can create your own by signing up to Dark Sky - https://darksky.net
     URL     : 'https://api.darksky.net/forecast/',
-    EXCLUDES: '?exclude=minutely,hourly,daily,alerts,flags'
+    EXCLUDES: '?exclude=minutely,hourly,daily,alerts,flags',
+    UNITS: '&units=si'
 };
 
 
 
 // define static folder
 app.use(express.static('public'));
-
-// OpenWeatherMaps uses http protocol to send json data about weather.
-// To avoid problems with the browser CORS policy make sure you are sending 
-// requestes through http
-// app.use(function (req, res, next){
-//   if (req.headers['x-forwarded-proto'] === 'https') {
-//       res.redirect('http://' + req.hostname + req.url);
-//   } else {
-//       next();
-//   }
-// });
 
 /* ----- ROUTES -----  */ 
 app.get('/weather/:location', (req, res) => {
@@ -53,16 +43,12 @@ app.get('/weather/:location', (req, res) => {
         // This fallback should be gone when ERROR HANDLING will be implemented
         let latitude = geoData[0].latitude || '52.2296756';
         let longitude =  geoData[0].longitude || '21.0122287';
-        let darkSkyUrl = darkSky.URL + darkSky.API_KEY + '/' + latitude + ',' + longitude + darkSky.EXCLUDES;
-        // console.log('geoData: ', geoData);
-        // console.log('lat: ', latitude);
-        // console.log('lon: ', longitude);
-        // console.log('darkSkyUrl: ', darkSkyUrl);
+        let darkSkyUrl = darkSky.URL + darkSky.API_KEY + '/' + latitude + ',' + longitude + darkSky.EXCLUDES + darkSky.UNITS;
         
         return axios.get( darkSkyUrl );
     }
+    
     function serveWeatherForecast (weather) {
-        // console.log('DarkSky: ', weather.data);
         res.send(weather.data);
     }
     
@@ -71,7 +57,7 @@ app.get('/weather/:location', (req, res) => {
   .then( serveWeatherForecast )
   .catch(function(err) {
     console.log('ERROR ', err)
-    // ADD ERROR HANDLING!
+    // ADD ERROR HANDLING
   });
   
 });

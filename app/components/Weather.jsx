@@ -1,12 +1,13 @@
 'use strict';
+// import { browserHistory } from 'react-router';
 
-var React           = require("react");
-var WeatherForm     = require("WeatherForm");
-var WeatherMessage  = require("WeatherMessage");
-var ErrorModal      = require("ErrorModal");
-var openWeatherMap  = require("openWeatherMap");
+const React           = require("react");
+const WeatherForm     = require("WeatherForm");
+const WeatherMessage  = require("WeatherMessage");
+const ErrorModal      = require("ErrorModal");
+const darkSky         = require("darkSky");
 
-var Weather = React.createClass({
+const Weather = React.createClass({
     /* ====== REACT METHODS ====== */
     // If you DON'T USE ES6, you set the initial state with getInitialState method
     getInitialState () {
@@ -24,19 +25,23 @@ var Weather = React.createClass({
             isLoading: true
         });
         
-        openWeatherMap.getTemp(location).then( function(temp) {
+        darkSky.getTemp(location)
+        .then( temp => {
+            console.log(temp);
             _self.setState({
                 isLoading: false,
                 location: location,
-                temp: temp
-            }, function (err) {
-                console.log(err);
+                temp: parseInt(temp.data.currently.temperature).toString()
+            })
+        })
+        .catch( err => {
+            console.log(err);
+            if (err.response) {
                 _self.setState({
-                   isLoading: false,
-                //   errorMessage: err.message
-                    errorMessage: err
+                  isLoading: false,
+                  errorMessage: err.message
                 });
-            });
+            }
         });
     },
     
