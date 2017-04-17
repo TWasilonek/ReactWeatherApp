@@ -27,7 +27,7 @@ const Weather = React.createClass({
         
         darkSky.getTemp(location)
         .then( temp => {
-            console.log(temp);
+            // console.log(temp);
             _self.setState({
                 isLoading: false,
                 location: location,
@@ -35,8 +35,9 @@ const Weather = React.createClass({
             })
         })
         .catch( err => {
-            console.log(err);
-            if (err.response) {
+            // console.log('Clientside error at Weather.jsx: ', err);
+            // console.warn('type of err.response', typeof err.message);
+            if (err.message) {
                 _self.setState({
                   isLoading: false,
                   errorMessage: err.message
@@ -66,7 +67,7 @@ const Weather = React.createClass({
         function renderError () {
             if (typeof errorMessage === 'string') {
                 return (
-                    <ErrorModal />
+                    <ErrorModal message={ errorMessage }/>
                 );
             }
         }

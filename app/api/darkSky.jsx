@@ -9,6 +9,9 @@ module.exports = {
     getTemp ( location ) {
         return axios.get(`/weather/${location}`)
                 .then( weather => weather )
-                .catch( err => { throw new Error(err); });
+                .catch( err => { 
+                    // console.log('Client error ant darkSky API: ', err);
+                    throw new Error(err); 
+                });
     }
 };

@@ -5,7 +5,7 @@ It's based on the tutorial The Complete App Developer Course by Andrew Mead.
 
 
 
-###*This project is still under construction*
+*This project is still under construction*
 
 
 

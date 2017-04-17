@@ -41,11 +41,22 @@ app.get('/weather/:location', (req, res) => {
     function fetchWeatherForecast (geoData) {
         // gather location data and set to Warsaw AS A FALLBACK.
         // This fallback should be gone when ERROR HANDLING will be implemented
-        let latitude = geoData[0].latitude || '52.2296756';
-        let longitude =  geoData[0].longitude || '21.0122287';
-        let darkSkyUrl = darkSky.URL + darkSky.API_KEY + '/' + latitude + ',' + longitude + darkSky.EXCLUDES + darkSky.UNITS;
-        
-        return axios.get( darkSkyUrl );
+        try {
+            let latitude = geoData[0].latitude || '52.2296756';
+            let longitude =  geoData[0].longitude || '21.0122287';
+            let darkSkyUrl = darkSky.URL + darkSky.API_KEY + '/' + latitude + ',' + longitude + darkSky.EXCLUDES + darkSky.UNITS;
+            
+            // return axios.get( darkSkyUrl );
+            return axios({
+               method: 'get',
+               url: darkSkyUrl,
+               timeout: 5000
+            });
+        } 
+        catch(err) {
+            console.log('error caught: ', err);
+            throw new Error(err);
+        }
     }
     
     function serveWeatherForecast (weather) {
@@ -56,11 +67,21 @@ app.get('/weather/:location', (req, res) => {
   .then( fetchWeatherForecast )
   .then( serveWeatherForecast )
   .catch(function(err) {
-    console.log('ERROR ', err)
-    // ADD ERROR HANDLING
+    console.log('ERROR ', err);
+    res.status(404).send('Unable to fetch weather for that location.');
   });
   
 });
+
+// Handle errors
+app.use(function (err, req, res, next) {
+    console.error('Error handled by middleware: ', err);
+    if (req.xhr) {
+        res.status(500).send({ error: 'Something failed!' });
+    } else {
+        res.status(404).send('Unable to fetch weather for that location.');
+    }
+})
 
 
 /* ----- START SERVER -----  */ 
