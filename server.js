@@ -39,14 +39,12 @@ app.use(express.static('public'));
 /* ----- ROUTES -----  */ 
 app.get('/weather/:location', (req, res) => {
     function fetchWeatherForecast (geoData) {
-        // gather location data and set to Warsaw AS A FALLBACK.
-        // This fallback should be gone when ERROR HANDLING will be implemented
+        // gather location data
         try {
-            let latitude = geoData[0].latitude || '52.2296756';
-            let longitude =  geoData[0].longitude || '21.0122287';
+            let latitude = geoData[0].latitude;
+            let longitude =  geoData[0].longitude;
             let darkSkyUrl = darkSky.URL + darkSky.API_KEY + '/' + latitude + ',' + longitude + darkSky.EXCLUDES + darkSky.UNITS;
             
-            // return axios.get( darkSkyUrl );
             return axios({
                method: 'get',
                url: darkSkyUrl,
@@ -54,7 +52,7 @@ app.get('/weather/:location', (req, res) => {
             });
         } 
         catch(err) {
-            console.log('error caught: ', err);
+            console.log('fetchWeatherForecast error caught: ', err);
             throw new Error(err);
         }
     }
@@ -67,7 +65,7 @@ app.get('/weather/:location', (req, res) => {
   .then( fetchWeatherForecast )
   .then( serveWeatherForecast )
   .catch(function(err) {
-    console.log('ERROR ', err);
+    console.log('An error occured during fetching error data: ', err);
     res.status(404).send('Unable to fetch weather for that location.');
   });
   
