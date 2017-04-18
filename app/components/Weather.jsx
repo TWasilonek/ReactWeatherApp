@@ -16,6 +16,28 @@ const Weather = React.createClass({
            errorMessage: undefined
         }
     },
+    // if there is any location already set up in the query string
+    // (shoudl happen when clicking the example places)
+    componentDidMount () {
+        var location = this.props.location.query.location;
+        
+        if (location && location.length > 0) {
+            this.handleSearch(location);
+            window.location.hash = "#/"
+        }
+    },
+    
+    // if the location query comes as a prop from another component (like the Nav form)
+    // the search won't trigger as it's not a value of the state object.
+    // To make it trigger you need to listen to the event when new props come to the component
+    componentWillReceiveProps ( newProps ) {
+        var location = newProps.location.query.location;
+        
+        if (location && location.length > 0) {
+            this.handleSearch(location);
+            window.location.hash = "#/"
+        }
+    },
     
     /* ====== USER METHODS ====== */
     handleSearch (location) {
