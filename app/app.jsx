@@ -14,6 +14,9 @@ require("style!css!foundation-sites/dist/foundation.min.css");
 // fire-up foundation
 $(document).foundation();
 
+// Load custom css
+require("style!css!applicationStyles");
+
 /* =========== Action! =========== */
 
 // render the app
