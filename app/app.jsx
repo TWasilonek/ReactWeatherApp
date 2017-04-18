@@ -14,8 +14,8 @@ require("style!css!foundation-sites/dist/foundation.min.css");
 // fire-up foundation
 $(document).foundation();
 
-// Load custom css
-require("style!css!applicationStyles");
+// Load custom css (running it through sass-loader)
+require("style!css!sass!applicationStyles");
 
 /* =========== Action! =========== */
 
