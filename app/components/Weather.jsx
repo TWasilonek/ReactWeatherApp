@@ -42,30 +42,34 @@ const Weather = React.createClass({
     /* ====== USER METHODS ====== */
     handleSearch (location) {
         var _self = this;
-    
+        
+        // All props of the state should be initially set to something.
         _self.setState({
-            isLoading: true
+            isLoading: true,
+            errorMessage: undefined,
+            location: undefined,
+            temp: undefined
         });
         
         darkSky.getTemp(location)
-        .then( temp => {
-            // console.log(temp);
-            _self.setState({
-                isLoading: false,
-                location: location,
-                temp: parseInt(temp.data.currently.temperature).toString()
-            })
-        })
-        .catch( err => {
-            // console.log('Clientside error at Weather.jsx: ', err);
-            // console.warn('type of err.response', typeof err.message);
-            if (err.message) {
+            .then( temp => {
+                // console.log(temp);
                 _self.setState({
-                  isLoading: false,
-                  errorMessage: err.message
-                });
-            }
-        });
+                    isLoading: false,
+                    location: location,
+                    temp: parseInt(temp.data.currently.temperature).toString()
+                })
+            })
+            .catch( err => {
+                console.log('Clientside error at Weather.jsx: ', err);
+                // console.warn('type of err.response', typeof err.message);
+                if (err.message) {
+                    _self.setState({
+                      isLoading: false,
+                      errorMessage: err.message
+                    });
+                }
+            });
     },
     
     /* ====== THE RENDER METHOD ====== */

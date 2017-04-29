@@ -2,6 +2,8 @@
 'use strict';
 
 var React = require("react");
+var ReactDOM = require("react-dom");
+var ReactDOMServer = require('react-dom/server');
 
 
 var ErrorModal = React.createClass({
@@ -17,19 +19,14 @@ var ErrorModal = React.createClass({
         title: React.PropTypes.string,
         message: React.PropTypes.string.isRequired
     },
-    // componentDidMount() is invoked immediately after a component is mounted
+    // componentDidMount() is invoked immediately after a component is mounted the first time
     componentDidMount () {
-        // create the modal
-        var modal = new Foundation.Reveal($('#error-modal'));
-        // show the modal
-        modal.open();
-    },
-    /* ====== USER METHODS ====== */
-    
-    /* ====== THE RENDER METHOD ====== */
-    render () {
+         // Rendering the contents of the component moved here
         var {title, message} = this.props;
-        return (
+        console.log('title: ',title, 'message: ', message);
+        
+        // create a variable containing the Component markup
+        var modalMarkup = (
             <div id="error-modal" className="reveal tiny text-center" data-reveal="">
                 <h4>{ title }</h4>
                 <p>{ message }</p>
@@ -38,6 +35,33 @@ var ErrorModal = React.createClass({
                         Okay
                     </button>
                 </p>
+            </div>
+        );
+        
+        // * Foundation fix - remove any hidden overlay bg created previously
+        $('.reveal-ovarlay').remove();
+        
+        // Turn the modalMarkup to a string
+        var $modal = $(ReactDOMServer.renderToString(modalMarkup));
+        // Add the string with our template to the modal html
+        $(ReactDOM.findDOMNode(this)).html($modal);
+        
+        // create the modal
+        var modal = new Foundation.Reveal($('#error-modal'));
+        // show the modal
+        modal.open();
+    },
+    /* ====== USER METHODS ====== */
+   
+    /* ====== THE RENDER METHOD ====== */
+    render () {
+        
+        // Foundation manipulates the DOM of the modal too,
+        // so I don't want to interfere with that.
+        // Render just an empty div in the beginning, the rest of the stuff will
+        // be renered when the 'componentDidMount' event is triggered
+        return (
+            <div>
             </div>
         );
     }
